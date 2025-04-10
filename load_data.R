@@ -8,10 +8,8 @@ pacman::p_load(dplyr,
 # curl::curl_download(url, destfile)
 
 data_path <- "input/csvs"
-files <- dir(here::here(data_path), pattern = "^NOMINAL.*2023") # get file names
+files <- dir(here::here(data_path), pattern = "^NOMINAL.*GENERAL_202") # get file names
 dt <- files %>%
   # read in all the files, appending the path before the filename
   map(~ rio::import(file.path(data_path, .))) %>%
-  reduce(rbind)
-
-
+  reduce(plyr::rbind.fill)
