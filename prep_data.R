@@ -24,6 +24,11 @@ list_dx <- dt_pop_filtered |>
   mutate(DM2 = as.numeric(Id_Paciente %in% dt_dm_filtered$Id_Paciente),
          HTA = as.numeric(Id_Paciente %in% dt_hta_filtered$Id_Paciente))
 
+list_dx_40 <- list_dx |>
+  filter(edad<40)
+
+table(list_dx$DM2,list_dx$HTA)
+table(list_dx_40$DM2,list_dx_40$HTA)
 age_prev <- list_dx |>
   group_by(edad) |>
   summarise(propDM2 = mean(DM2), propHTA = mean(HTA)) 
