@@ -1,13 +1,24 @@
+# dt_pop_filtered_2 <- dt |>
+#   filter(Anio >= 2020) |>
+#   # filter(stringr::str_detect(Codigo_Item, "^E11")) |>
+#   filter(Tipo_Edad == "A") |>
+#   filter(Edad_Reg >= 15) |>
+#   group_by(Id_Paciente) |>
+#   summarise(edad = max(Edad_Reg), anio_ingreso = min(Anio), anio_analisis = 2023)
 
 
+
+anio_analisis <- 2023
 dt_pop_filtered <- dt |>
-  filter(Anio >= 2021) |>
+  filter(Anio >= anio_analisis-2) |>
   # filter(stringr::str_detect(Codigo_Item, "^E11")) |>
   filter(Tipo_Edad == "A") |>
   filter(Edad_Reg >= 15) |>
   group_by(Id_Paciente) |>
-  summarise(edad = max(Edad_Reg), anio = min(Anio))
+  summarise(edad = max(Edad_Reg), anio_ingreso = min(Anio), anio_analisis = anio_analisis)
   
+# test <- rbind(dt_pop_filtered,dt_pop_filtered_2)
+# dt_pop_filtered <- work_pop_filtered
 dt_dm_filtered <- dt_pop_filtered |>
   filter(stringr::str_detect(Codigo_Item, "^E11")) |>
   # filter(Tipo_Edad == "A") |>
