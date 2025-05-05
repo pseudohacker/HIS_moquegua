@@ -1,0 +1,31 @@
+---
+title: "Resultados de paquete adolescente"
+format: html
+---
+
+```{r}
+#| label: load_data
+#| include: false
+pacman::p_load(dplyr, ggplot2, purrr)
+data_path <- "DATA_TEMP"
+files <- dir(here::here(data_path), pattern = "RDS$") # get file names
+adolescente_result <- files %>%
+  # read in all the files, appending the path before the filename
+  map(~ rio::import(file.path(data_path, .))) %>%
+  reduce(plyr::rbind.fill)
+```
+
+```{r}
+#| label: adolescentes
+#| echo: false
+adolescente_result |>
+  select(-paq_adolescente_completo) |>
+  tidyr::pivot_longer(starts_with("paq_"),names_to = "prestacion", values_to = "count") |>
+  group_by(prestacion) |>
+  summarise(count = sum(count)) |>
+  ggplot(aes(prestacion, count)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  
+```
+

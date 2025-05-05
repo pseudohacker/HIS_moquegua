@@ -44,11 +44,11 @@ dt <- files %>%
   map(~ rio::import(file.path(data_path, .))) %>%
   reduce(plyr::rbind.fill)
 
-data_path <- "input"
-files <- dir(here::here(data_path), pattern = "^HIS") # get file names
-dt_18_19 <- files %>%
-  # read in all the files, appending the path before the filename
-  map(~ rio::import(file.path(data_path, .))) %>%
-  reduce(plyr::rbind.fill)
+# data_path <- "input"
+# files <- dir(here::here(data_path), pattern = "^HIS") # get file names
+# dt_18_19 <- files %>%
+#   # read in all the files, appending the path before the filename
+#   map(~ rio::import(file.path(data_path, .))) %>%
+#   reduce(plyr::rbind.fill)
 
 
