@@ -5,24 +5,17 @@ pacman::p_load(dplyr,
 
 
 # Load ----
-
-# query <- "https://files.jlh.work/csvs.rar"
-# url_encoded <- utils::URLencode(query, reserved = F)
-# url <- url_encoded
-# destfile <- here::here("input",glue::glue("csvs.rar"))
-# curl::curl_download(url, destfile)
-
-## Rutas ----
-# remote_route <- "s3://files.jlh.work/credicorp/"
-local_route <- here::here("input")
-
-
-## descargas ----
-file <- here::here(local_route,"csvs.rar")
-cmd_str <- glue::glue("unrar x {file} {local_route}/")
+remote_route <- "s3://files.jlh.work/his_moquegua/"
+local_route <- "input"
+filename <- "csvs.rar"
+cmd_str <- glue::glue("s3cmd get {remote_route}{filename} {local_route}/")
 cat(cmd_str)
 system(cmd_str)
 
+filename <- "his2024.tar.gz"
+cmd_str <- glue::glue("s3cmd get {remote_route}{filename} {local_route}/")
+cat(cmd_str)
+system(cmd_str)
 
 #
 # query <- "https://files.jlh.work/HIS318.DBF"
@@ -37,8 +30,24 @@ system(cmd_str)
 # destfile <- here::here("input",glue::glue("HIS319.DBF"))
 # curl::curl_download(url, destfile)
 
+## descomprimir ----
+file <- here::here(local_route,"csvs.rar")
+cmd_str <- glue::glue("unrar x {file} {local_route}/")
+cat(cmd_str)
+system(cmd_str)
+
+file <- here::here(local_route,"his2024.tar.gz")
+local_route <- here::here("input","csvs")
+cmd_str <- glue::glue("tar xvzf {file} -C {local_route}/")
+cat(cmd_str)
+system(cmd_str)
+
+cmd_str <- glue::glue("mv {local_route}/2024/* {local_route}")
+cat(cmd_str)
+system(cmd_str)
+
 data_path <- "input/csvs"
-files <- dir(here::here(data_path), pattern = "^NOMINAL.*GENERAL_2023") # get file names
+files <- dir(here::here(data_path), pattern = "^NOMINAL.*GENERAL_202[1-4]") # get file names
 dt <- files %>%
   # read in all the files, appending the path before the filename
   map(~ rio::import(file.path(data_path, .))) %>%
