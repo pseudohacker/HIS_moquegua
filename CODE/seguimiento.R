@@ -1,3 +1,10 @@
+dt |>
+  filter(stringr::str_detect(Id_Paciente, "^[0-9].*")) |>
+  # select(Id_Paciente) |>
+  group_by(Id_Paciente) |>
+  summarise(count_d = n_distinct(Id_Cita)) 
+  # filter(count_d > 1)
+
 lista_eess <- c(
 00002835,
 00002833,
@@ -64,4 +71,8 @@ table(list_dx_40$DM2,list_dx_40$HTA)
 age_prev <- list_dx |>
   group_by(edad) |>
   summarise(propDM2 = mean(DM2), propHTA = mean(HTA)) 
+
+
+dt |>
+  filter()
 

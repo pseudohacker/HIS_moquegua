@@ -46,8 +46,10 @@ cmd_str <- glue::glue("mv {local_route}/2024/* {local_route}")
 cat(cmd_str)
 system(cmd_str)
 
+
+## cargar en memoria ----
 data_path <- "input/csvs"
-files <- dir(here::here(data_path), pattern = "^NOMINAL.*GENERAL_202[1-4]") # get file names
+files <- dir(here::here(data_path), pattern = "^NOMINAL.*GENERAL_2024") # get file names
 dt <- files %>%
   # read in all the files, appending the path before the filename
   map(~ rio::import(file.path(data_path, .))) %>%
