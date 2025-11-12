@@ -17,6 +17,13 @@ cmd_str <- glue::glue("s3cmd get {remote_route}{filename} {local_route}/")
 cat(cmd_str)
 system(cmd_str)
 
+remote_route <- "s3://files.jlh.work/MINSA/"
+local_route <- "input"
+filename <- "Maestro_upss.csv"
+cmd_str <- glue::glue("s3cmd get {remote_route}{filename} {local_route}/")
+cat(cmd_str)
+system(cmd_str)
+
 #
 # query <- "https://files.jlh.work/HIS318.DBF"
 # url_encoded <- utils::URLencode(query, reserved = F)
@@ -62,4 +69,9 @@ dt <- files %>%
 #   map(~ rio::import(file.path(data_path, .))) %>%
 #   reduce(plyr::rbind.fill)
 
-
+data_path <- "input"
+files <- dir(here::here(data_path), pattern = "^Maestro_upss") # get file names
+dt_ups <- files %>%
+  # read in all the files, appending the path before the filename
+  map(~ rio::import(file.path(data_path, .), encoding = "Latin-1")) %>%
+  reduce(plyr::rbind.fill)
