@@ -26,18 +26,25 @@ lista_eess_piloto <- c(
 
 
 dt |>
-  filter(renipress %in% lista_eess_piloto) |>
+  filter(renipress %in% lista_eess_piloto) -> dt_unique
+
+unique(dt_unique[,c("Id_Ups","Id_Paciente")]) |>
   group_by(Id_Ups) |>
   summarise(N = n()) 
 
+dt |>
+  filter(renipress %in% lista_eess_piloto) -> dt_unique
 
-result1 <- dt |>
-  filter(renipress %in% lista_eess_piloto) |>
+result1 <- unique(dt_unique[,c("Id_Ups","Id_Paciente")]) |>
+  # filter(renipress %in% lista_eess_piloto) |>
   group_by(Id_Ups) |>
   summarise(N = n()) 
 
-result2 <- dt |>
-  filter(renipress %in% lista_eess) |>
+dt |>
+  filter(renipress %in% lista_eess) -> dt_unique
+
+result2 <- unique(dt_unique[,c("Id_Ups","Id_Paciente")]) |>
+  # filter(renipress %in% lista_eess) |>
   group_by(Id_Ups) |>
   summarise(N = n()) 
 
